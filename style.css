@@ -1,0 +1,776 @@
+/* ===================================
+   RESET & BASE
+   =================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-bg: #0A0A0A;
+    --color-bg-elevated: #111111;
+    --color-text: #EDEDED;
+    --color-text-light: #999999;
+    --color-accent: #3B82F6;
+    --color-border: #222222;
+
+    --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image:
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
+}
+
+::selection {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+/* ===================================
+   TYPOGRAPHY
+   =================================== */
+
+h1, h2, h3 {
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+p {
+    max-width: 65ch;
+}
+
+/* ===================================
+   LAYOUT
+   =================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 8%;
+}
+
+section {
+    padding: 80px 0;
+}
+
+/* ===================================
+   NAVIGATION
+   =================================== */
+
+nav {
+    display: flex;
+    gap: 48px;
+    padding: 16px 0 32px 0;
+}
+
+.nav-link {
+    font-size: 15px;
+    color: var(--color-text-light);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    position: relative;
+    transition: color 0.3s var(--ease-out);
+    padding: 8px 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-text));
+    transition: width 0.3s var(--ease-out);
+    border-radius: 2px;
+}
+
+.nav-link:hover {
+    color: var(--color-text);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+/* ===================================
+   HERO SECTION
+   =================================== */
+
+.hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.hero .container {
+    width: 100%;
+}
+
+.hero-content {
+    margin-top: 20px;
+    max-width: 100%;
+}
+
+.hero-title {
+    font-size: clamp(56px, 7vw, 72px);
+    font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s var(--ease-out) 0.2s forwards;
+    background: linear-gradient(135deg, #EDEDED 0%, #999999 50%, #EDEDED 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s var(--ease-out) 0.2s forwards, shimmer 8s linear infinite;
+}
+
+.hero-subtitle {
+    font-size: clamp(22px, 2.2vw, 28px);
+    color: var(--color-text);
+    max-width: 900px;
+    line-height: 1.4;
+    margin-bottom: 18px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s var(--ease-out) 0.4s forwards;
+    font-weight: 500;
+}
+
+.hero-description {
+    font-size: clamp(15px, 1.6vw, 17px);
+    color: var(--color-text-light);
+    max-width: 850px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s var(--ease-out) 0.6s forwards;
+}
+
+.hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s var(--ease-out) 0.8s forwards;
+}
+
+.badge {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 24px;
+    font-size: 14px;
+    color: var(--color-accent);
+    font-weight: 500;
+    transition: all 0.3s var(--ease-out);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.badge::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s var(--ease-out), height 0.5s var(--ease-out);
+}
+
+.badge:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.badge:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+/* ===================================
+   HERO CTA (UPWORK LINK)
+   =================================== */
+
+.hero-cta {
+    margin-top: 48px;
+    animation: fadeInUp 0.8s var(--ease-out) 0.8s both;
+}
+
+.upwork-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 10px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-out);
+}
+
+.upwork-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+    transition: left 0.6s var(--ease-out);
+}
+
+.upwork-link:hover::before {
+    left: 100%;
+}
+
+.upwork-link:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.3);
+}
+
+.upwork-icon {
+    width: 26px;
+    height: 26px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: transform 0.4s var(--ease-out);
+}
+
+.upwork-link:hover .upwork-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.upwork-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.upwork-label {
+    font-size: 11px;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.upwork-action {
+    font-size: 14px;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.upwork-arrow {
+    width: 20px;
+    height: 20px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    transition: transform 0.4s var(--ease-out);
+}
+
+.upwork-link:hover .upwork-arrow {
+    transform: translateX(4px);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* ===================================
+   SECTION TITLES
+   =================================== */
+
+.section-title {
+    font-size: clamp(32px, 4vw, 48px);
+    margin-bottom: 50px;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    border-radius: 2px;
+}
+
+/* ===================================
+   WORK SECTION
+   =================================== */
+
+.work {
+    background-color: var(--color-bg-elevated);
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+}
+
+.project {
+    border-top: 1px solid var(--color-border);
+    padding-top: 48px;
+    padding: 48px 32px 32px 32px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: all 0.4s var(--ease-out);
+    position: relative;
+    background: transparent;
+}
+
+.project.in-view {
+    border-color: var(--color-border);
+    background: rgba(17, 17, 17, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.project:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-accent);
+    background: rgba(17, 17, 17, 0.6);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+
+.project::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+}
+
+.project.in-view::before {
+    opacity: 1;
+}
+
+.project:hover::before {
+    opacity: 1;
+}
+
+.project-meta {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.project-title {
+    font-size: clamp(28px, 3vw, 40px);
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+.project-description {
+    font-size: 18px;
+    color: var(--color-text-light);
+    margin-bottom: 32px;
+    line-height: 1.7;
+}
+
+.project-tags {
+    display: flex;
+    gap: 16px;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.project-tags li {
+    font-size: 14px;
+    color: var(--color-text-light);
+    padding: 8px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    transition: all 0.3s var(--ease-out);
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-tags li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    transition: left 0.5s var(--ease-out);
+}
+
+.project.in-view .project-tags li {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.project.in-view .project-tags li::before {
+    left: 100%;
+}
+
+.project:hover .project-tags li {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.project:hover .project-tags li::before {
+    left: 100%;
+}
+
+/* ===================================
+   ABOUT SECTION
+   =================================== */
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.about-text p {
+    font-size: 18px;
+    color: var(--color-text-light);
+    line-height: 1.8;
+}
+
+.about-details {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    position: sticky;
+    top: 120px;
+}
+
+.detail-group {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s var(--ease-out) forwards;
+}
+
+.detail-group:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.detail-group:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.detail-group:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.detail-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+    margin-bottom: 16px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+}
+
+.detail-text {
+    font-size: 16px;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+
+/* ===================================
+   CONTACT SECTION
+   =================================== */
+
+.contact {
+    background-color: var(--color-bg-elevated);
+}
+
+.contact-content {
+    max-width: 800px;
+}
+
+.contact-intro {
+    font-size: 24px;
+    color: var(--color-text-light);
+    margin-bottom: 50px;
+    line-height: 1.6;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.contact-link {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-decoration: none;
+    padding: 32px 24px;
+    border-top: 1px solid var(--color-border);
+    border-left: 3px solid transparent;
+    transition: all 0.3s var(--ease-out);
+    background: transparent;
+}
+
+.contact-link:hover {
+    transform: translateX(8px);
+    border-left-color: var(--color-accent);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.contact-link:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 8px;
+}
+
+.contact-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+    font-family: var(--font-mono);
+}
+
+.contact-value {
+    font-size: 28px;
+    color: var(--color-text);
+}
+
+/* ===================================
+   FOOTER
+   =================================== */
+
+.footer {
+    padding: 50px 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-text {
+    font-size: 14px;
+    color: var(--color-text-light);
+    font-family: var(--font-mono);
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 968px) {
+    .container {
+        padding: 0 6%;
+    }
+
+    section {
+        padding: 100px 0;
+    }
+
+    nav {
+        gap: 32px;
+        padding: 32px 0;
+    }
+
+    .hero-content {
+        margin-top: 80px;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 80px;
+    }
+
+    .about-details {
+        position: static;
+    }
+
+    .section-title {
+        margin-bottom: 60px;
+    }
+
+    .project-list {
+        gap: 80px;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 0 5%;
+    }
+
+    section {
+        padding: 80px 0;
+    }
+
+    nav {
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .nav-link {
+        font-size: 14px;
+    }
+
+    .hero-content {
+        margin-top: 60px;
+    }
+
+    .upwork-link {
+        padding: 16px 24px;
+        gap: 12px;
+    }
+
+    .upwork-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .upwork-label {
+        font-size: 11px;
+    }
+
+    .upwork-action {
+        font-size: 14px;
+    }
+
+    .upwork-arrow {
+        width: 20px;
+        height: 20px;
+    }
+
+    .section-title {
+        margin-bottom: 48px;
+    }
+
+    .project-list {
+        gap: 64px;
+    }
+
+    .project-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .contact-intro {
+        font-size: 20px;
+        margin-bottom: 60px;
+    }
+
+    .contact-value {
+        font-size: 20px;
+    }
+
+    .about-details {
+        gap: 40px;
+    }
+}
+
+/* ===================================
+   ACCESSIBILITY
+   =================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
